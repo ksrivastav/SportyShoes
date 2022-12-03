@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+          
+    
+
+    <!-- bean definitions here -->
+
+    <bean id = "SportyShoesDataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value = "com.mysql.cj.jdbc.Driver"></property>
+      <property name="url" value = "jdbc:mysql://localhost:3306/dump?useSSL=false"></property>        
+        <property name="username" value = "root"></property>
+        <property name="password" value = "hrhk"></property>
+    </bean>
+    
+    
+        
+   
+    
+    <bean id = "DBSessionFactory" class ="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    	    <property name="dataSource" ref = "SportyShoesDataSource"></property>
+    	    <property name="annotatedClasses">
+    	    	<list>
+    	    		<value>model.Brand</value>
+    	    		<value>model.Order</value>
+    	    		<value>model.OrderDetails</value>
+    	    		<value>model.Product</value>
+    	    		<value>model.ProductCategory</value>
+    	    		<value>model.ProductImage</value>
+    	    		<value>model.Role</value>
+    	    		<value>model.User</value>
+    	    		<value>model.UserRoles</value>
+    	    	</list>
+    	    </property>
+    	    <property name="hibernateProperties">  
+            <props>  
+    	   	 	<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+    	   	 	<prop key="hibernate.hbm2ddl.auto">update</prop>  
+                <prop key="hibernate.show_sql">true</prop>  
+    	   	 </props>
+    	    </property>
+    </bean> 
+    	    
+    <bean id="HTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">  
+    	<property name="sessionFactory" ref="DBSessionFactory"></property>  
+    </bean>
+
+ 
+    <bean id = "BrandRepository" class ="Repository.BrandRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+       <bean id = "OrderRepository" class ="Repository.OrderRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+       <bean id = "OrderDetailsRepository" class ="Repository.OrderDetailsRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+       <bean id = "ProductRepository" class ="Repository.ProductRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+      <bean id = "ProductCategoryRepository" class ="Repository.ProductCategoryRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+      <bean id = "ProductImageRepository" class ="Repository.ProductImageRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+      <bean id = "RoleRepository" class ="Repository.RoleRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+     <bean id = "UserRolesRepository" class ="Repository.UserRolesRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+     <bean id = "UserRepository" class ="Repository.UserRepository">
+    	    <property name="hibTemplate" ref = "HTemplate"></property>
+    </bean>
+    
+    
+    
+     <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"></bean>  
+          
+    
+    
+</beans>
